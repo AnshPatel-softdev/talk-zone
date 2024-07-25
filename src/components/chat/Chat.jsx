@@ -5,7 +5,6 @@ import {
   arrayUnion,
   doc,
   getDoc,
-  onSnapshot,
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../../lib/firebase";
@@ -14,7 +13,7 @@ import { useUserStore } from "../../lib/userStore";
 import upload from "../../lib/upload";
 
 const Chat = () => {
-  const [chat, setChat] = useState();
+  const [chat, setChat] = useState([]);
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
   const [img, setImg] = useState({
@@ -26,7 +25,29 @@ const Chat = () => {
   const { chatId, user, isCurrentUserBlocked, isReceiverBlocked } =
     useChatStore();
 
-    const endRef = useRef(null);
+  const endRef = useRef(null);
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chat.messages]);
+  const fetchPost = async () => {
+    try {
+        const docSnap = await getDoc(doc(db, "chats", chatId));
+        if (docSnap.exists()) {
+            const newData = { ...docSnap.data(), id: docSnap.chatId };
+            setChat(newData);
+            console.log(newData);
+        } else {
+            console.log("No such document!");
+        }
+    } catch (error) {
+        console.error("Error fetching document: ", error);
+    }
+};
+
+useEffect(() => {
+    fetchPost();
+}, [chatId]);
+
   const handleEmoji = (e) => {
     setText((prev) => prev + e.emoji);
     setOpen(false);
@@ -122,7 +143,7 @@ const Chat = () => {
             <div className="texts">
               {message.img && <img src={message.img} alt="" />}
               <p>{message.text}</p>
-              <span>{format(message.createdAt.toDate())}</span>
+              
             </div>
           </div>
         ))}

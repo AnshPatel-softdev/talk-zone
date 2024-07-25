@@ -1,7 +1,9 @@
 import { initializeApp } from "firebase/app";
-import {getAuth} from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+
+// Firebase configuration
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
   authDomain: "talk-zone-909f1.firebaseapp.com",
@@ -11,8 +13,10 @@ const firebaseConfig = {
   appId: "1:892395986636:web:39fd39eef98dcc4b13ac69"
 };
 
-const app = initializeApp(firebaseConfig);  
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
-export const auth = getAuth()
-export const db = getFirestore()
-export const storage = getStorage()
+// Initialize services
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);

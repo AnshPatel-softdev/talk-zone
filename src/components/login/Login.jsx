@@ -8,7 +8,7 @@ import {
 import { auth, db } from "../../lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import upload from "../../lib/upload";
-
+import { collection, query, where, getDocs } from "firebase/firestore";
 const Login = () => {
   const [avatar, setAvatar] = useState({
     file: null,
@@ -81,6 +81,7 @@ const Login = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      window.location.relode();
     } catch (err) {
       console.log(err);
       toast.error(err.message);

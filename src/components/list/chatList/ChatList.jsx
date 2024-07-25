@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./chatList.css";
+import "./chatlist.css";
 import AddUser from "./addUser/addUser";
 import { useUserStore } from "../../../lib/userStore";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
@@ -69,7 +69,7 @@ const ChatList = () => {
   );
 
   return (
-    <div className="chatList">
+    <div className="chatlist">
       <div className="search">
         <div className="searchBar">
           <img src="./search.png" alt="" />
